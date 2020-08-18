@@ -1,0 +1,8 @@
+{
+  "name": "demo-firebase-emulators",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/azoom-g-v-duc/demo-firebase-emulators",
+  "author": "Giap Viet Duc <g.v.duc@azoom.jp>",
+  "license": "MIT"
+}
