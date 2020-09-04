@@ -15,7 +15,7 @@
   "scripts": {
     "start": "env $(grep -v '^#' ./.env) node index.js",
     "dev": "env $(grep -v '^#' ./.env) nodemon index.js",
-    "test": "env $(grep -v '^#' ./.env) mocha test/*.spec.js"
+    "test": "env $(grep -v '^#' ./.env) mocha --exit test/*.spec.js"
   },
   "devDependencies": {
     "@firebase/testing": "^0.20.11",
