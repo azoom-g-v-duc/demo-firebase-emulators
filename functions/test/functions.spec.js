@@ -8,7 +8,7 @@ const admin = require("firebase-admin");
 // when we use the Admin SDK in the tests below we can be confident it will
 // communicate with the emulators, not production.
 const test = require("firebase-functions-test")({
-  projectId: 'your-project-id',
+  projectId: 'staging-tonkinese',
 });
 
 // Import the exported function definitions from our functions/index.js file
@@ -62,7 +62,7 @@ describe("Unit tests", () => {
       {
         text: "hello world",
       },
-      "/collection/foo"
+      "/lowercase/foo"
     );
 
     // Call the function

@@ -1,38 +1,25 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-admin.initializeApp();
+const express = require('express')
+const bodyParser = require('body-parser')
+const User = require('./models/User')
 
-/**
- * Simple HTTP function that returns the "?text" query parameter in the response text.
- */
-exports.simpleHttp = functions.https.onRequest((request, response) => {
-  response.send(`text: ${request.query.text}`);
-});
+const app = express()
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 
-/**
- * Simple callable function that adds two numbers.
- */
-exports.simpleCallable = functions.https.onCall((data, ctx) => {
-  // This function implements addition (a + b = c)
-  const sum = data.a + data.b;
-  return {
-    c: sum,
-  };
-});
+app.get('/users', async (req, res) => {
+  const users = await User.getUsers()
+  res.send({ users })
+})
 
-/**
- * Firestore-triggered function which uppercases a string field of a document.
- */
-exports.firestoreUppercase = functions.firestore
-  .document("/lowercase/{doc}")
-  .onCreate(async (doc, ctx) => {
-    const docId = doc.id;
+app.post('/users', async (req, res) => {
+  const user = req.body
+  const createdUser = await User.createUser(user)
+  res.send(createdUser)
+})
 
-    const docData = doc.data();
-    const lowercase = docData.text;
-
-    const firestore = admin.firestore();
-    await firestore.collection("uppercase").doc(docId).set({
-      text: lowercase.toUpperCase(),
-    });
-  });
+app.listen(process.env.PORT || 8000, (err) => {
+  if (err) {
+    return console.error(err)
+  }
+  console.log(`Server is running at port ${process.env.PORT || 8080}`)
+})
